@@ -1,71 +1,74 @@
-# Demo API GajiHub (PHP)
+# Demo API GajiHub
 
-Kumpulan contoh program PHP sederhana untuk mengambil dan mengirim data ke GajiHub lewat API, memakai **Personal Access Token**.
+Kumpulan contoh program untuk mengambil dan mengirim data ke GajiHub lewat API, memakai **Personal Access Token**.
+Tersedia dalam **PHP**, **Python**, dan **Node.js**, dengan isi yang sama persis.
 
-Semua contoh:
-
-- **tanpa Composer** dan tanpa library tambahan, cukup PHP dengan ekstensi `curl`;
-- berupa **1 file pendek per contoh**, dengan penjelasan di setiap baris penting;
-- bisa dijalankan **lewat terminal** maupun **lewat browser**.
+- **Setiap file berdiri sendiri.** Salin 1 file, isi `API_HOST` dan `ACCESS_TOKEN`, lalu jalankan.
+- **Tanpa library tambahan.** Tidak perlu Composer, `pip install`, atau `npm install`.
+- Ada **contoh penerapan yang aman** untuk aplikasi sungguhan: Laravel, FastAPI, dan Express.
 
 ---
 
 ## Daftar Isi
 
-1. [Isi Folder](#1-isi-folder)
-2. [Persiapan](#2-persiapan)
-3. [Membuat Personal Access Token](#3-membuat-personal-access-token)
-4. [Konfigurasi](#4-konfigurasi)
-5. [Menjalankan Demo](#5-menjalankan-demo)
-6. [Daftar Demo](#6-daftar-demo)
-7. [Unduh Laporan Otomatis Setiap Hari](#7-unduh-laporan-otomatis-setiap-hari)
-8. [Membuat Program Sendiri](#8-membuat-program-sendiri)
-9. [Catatan Penting](#9-catatan-penting)
-10. [Jika Terjadi Kendala](#10-jika-terjadi-kendala)
+1. [Isi Folder](#isi-folder)
+2. [Mulai Cepat](#mulai-cepat)
+3. [Membuat Personal Access Token](#membuat-personal-access-token)
+4. [Cara Kerja Autentikasi](#cara-kerja-autentikasi)
+5. [Keamanan Token](#keamanan-token)
+6. [Daftar Demo](#daftar-demo)
+7. [Catatan Penting](#catatan-penting)
+8. [Jika Terjadi Kendala](#jika-terjadi-kendala)
 
 ---
 
-## 1. Isi Folder
+## Isi Folder
 
 ```
 gajihub-api-demo/
-├── .env.example        -> contoh konfigurasi (salin menjadi .env)
-├── gajihub.php         -> fungsi bantu yang dipakai semua demo (tidak perlu diubah)
-├── index.php           -> halaman daftar demo (untuk browser)
-├── hasil-unduhan/      -> tempat file Excel hasil export (dibuat otomatis)
-├── python/             -> demo yang sama dalam Python (lihat python/README.md)
-├── nodejs/             -> demo yang sama dalam Node.js (lihat nodejs/README.md)
-└── demo/
-    ├── absensi/        -> absensi harian, bulanan, rekap, export Excel
-    ├── karyawan/       -> daftar, detail, tambah, export karyawan
-    ├── data-master/    -> struktur organisasi, jabatan, level, shift, lokasi, referensi
-    ├── cuti/           -> daftar, tambah, export cuti & sisa kuota
-    ├── lembur/         -> daftar, tambah, export lembur
-    ├── persetujuan/    -> daftar pengajuan & menyetujui pengajuan
-    ├── gaji/           -> daftar gaji per periode, export gaji, komponen gaji
-    ├── reimbursement/  -> daftar & export reimbursement
-    ├── kasbon/         -> saldo, riwayat, export kasbon
-    └── unduh-otomatis/ -> script unduh laporan absensi untuk dijadwalkan
+├── php/                -> demo PHP        (lihat php/README.md)
+├── python/             -> demo Python     (lihat python/README.md)
+└── nodejs/             -> demo Node.js    (lihat nodejs/README.md)
+
+Di dalam setiap folder bahasa (urut dari yang paling dasar):
+    ├── 01-authentication/      -> cek token + contoh penerapan aman (laravel/, fastapi/, express/)
+    ├── 02-employees/           -> karyawan: daftar, detail, tambah, export
+    ├── 03-master-data/         -> struktur organisasi, jabatan, level, shift, lokasi, referensi
+    ├── 04-attendance/          -> absensi: harian, bulanan, rekap, export Excel
+    ├── 05-leave/               -> cuti: daftar, tambah, export cuti & sisa kuota
+    ├── 06-overtime/            -> lembur: daftar, tambah, export
+    ├── 07-approvals/           -> persetujuan: daftar pengajuan & menyetujui pengajuan
+    ├── 08-payroll/             -> gaji: daftar per periode, export, komponen gaji
+    ├── 09-reimbursement/       -> reimbursement: daftar & export
+    ├── 10-cash-advance/        -> kasbon: saldo, riwayat, export
+    └── 11-scheduled-download/  -> unduh laporan absensi otomatis (untuk dijadwalkan)
 ```
 
 ---
 
-## 2. Persiapan
+## Mulai Cepat
 
-| Kebutuhan | Keterangan |
-|---|---|
-| **PHP 8.1 atau lebih baru** | Paling mudah pakai [XAMPP](https://www.apachefriends.org/download.html) (sudah berisi PHP). |
-| **Ekstensi curl aktif** | Di XAMPP biasanya sudah aktif. Cek dengan perintah `php -m`, pastikan ada tulisan `curl`. |
+1. Buat Personal Access Token (lihat [bagian berikut](#membuat-personal-access-token)).
+2. Buka file `01-authentication/01-check-token` di folder bahasa pilihan Anda, lalu isi bagian **Konfigurasi** di atas file:
+   - `API_HOST`: alamat API perusahaan Anda, diakhiri `/api/v1` (contoh `https://namaperusahaan.api.kledo.com/api/v1`).
+     Tanyakan ke tim GajiHub jika belum tahu.
+   - `ACCESS_TOKEN`: Personal Access Token Anda (diawali `gajihub_pat_`).
+3. Jalankan lewat terminal:
 
-Cek versi PHP:
+   | Bahasa | Perintah |
+   |---|---|
+   | PHP 8.1+ | `cd php/01-authentication` lalu `php 01-check-token.php` |
+   | Python 3.8+ | `cd python/01-authentication` lalu `python 01-check-token.py` |
+   | Node.js 18+ | `cd nodejs/01-authentication` lalu `node 01-check-token.mjs` |
 
-```bash
-php --version
-```
+4. Jika muncul `Token valid.`, token sudah benar. Lanjutkan ke demo lain dengan cara yang sama.
+
+Setiap demo cukup diubah di bagian parameternya (tanggal, ID karyawan, filter).
+Filter tambahan sudah disiapkan dalam bentuk komentar. Hapus tanda komentarnya untuk mengaktifkan.
 
 ---
 
-## 3. Membuat Personal Access Token
+## Membuat Personal Access Token
 
 1. Login ke GajiHub sebagai admin.
 2. Buka menu **Pengaturan → API Key**.
@@ -73,240 +76,159 @@ php --version
 4. **Salin token** yang muncul (diawali `gajihub_pat_`), lalu simpan di tempat aman.
    Token hanya ditampilkan **satu kali**.
 
-> **Penting:**
-> - Token bekerja atas nama user yang membuatnya. Hak aksesnya sama dengan hak akses user tersebut.
->   Jika user tidak punya akses ke menu tertentu, API untuk menu itu akan membalas `403`.
-> - Jangan bagikan token ke orang lain dan jangan simpan token di Git.
+> Token bekerja atas nama user yang membuatnya, dengan hak akses yang sama.
+> Jika user tidak punya akses ke menu tertentu, API untuk menu itu akan membalas `403`.
 
 ---
 
-## 4. Konfigurasi
+## Cara Kerja Autentikasi
 
-1. Salin file `.env.example` menjadi `.env`:
-
-   ```bash
-   # Windows
-   copy .env.example .env
-
-   # macOS / Linux
-   cp .env.example .env
-   ```
-
-2. Buka file `.env`, lalu isi:
-
-   ```text
-   API_HOST=https://namaperusahaan.api.kledo.com/api/v1
-   ACCESS_TOKEN="gajihub_pat_xxxxxx_xxxxxxxxxxxxxxxx"
-   ```
-
-   - `API_HOST`: alamat API perusahaan Anda, diakhiri `/api/v1`. Tanyakan ke tim GajiHub jika belum tahu.
-   - `ACCESS_TOKEN`: Personal Access Token dari langkah 3, diapit tanda petik dua.
-
----
-
-## 5. Menjalankan Demo
-
-### Cara 1: Lewat terminal
-
-Masuk ke folder demo, lalu jalankan file-nya:
-
-```bash
-cd demo/absensi
-php 1-absensi-harian.php
-```
-
-Hasil request (status dan data JSON) langsung tampil di layar.
-
-### Cara 2: Lewat browser
-
-1. Letakkan folder `gajihub-api-demo` di dalam folder `htdocs` XAMPP (contoh: `C:\xampp\htdocs\gajihub-api-demo`).
-2. Jalankan **Apache** dari XAMPP Control Panel.
-3. Buka `http://localhost/gajihub-api-demo/`.
-4. Pilih demo. Halaman menampilkan kode programnya dulu.
-   Klik **Jalankan Request** untuk mengirim request dan melihat hasilnya.
-
-> Setiap demo cukup diubah di bagian parameternya (tanggal, ID karyawan, filter).
-> Filter tambahan sudah disiapkan dalam bentuk komentar `//`. Hapus tanda `//` untuk mengaktifkannya.
-
----
-
-## 6. Daftar Demo
-
-Demo bertanda ✏️ **mengubah data** di GajiHub (menambah, mengubah, menghapus, atau menyetujui).
-Coba demo tersebut dengan hati-hati.
-
-### Absensi (`demo/absensi/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-absensi-harian.php` | Absensi semua karyawan pada 1 tanggal | `GET /hr/attendances/daily/pagination` |
-| `2-absensi-bulanan-karyawan.php` | Absensi 1 karyawan selama 1 bulan | `GET /hr/attendances/pagination` |
-| `3-rekap-absensi.php` | Rekap absensi per karyawan (hadir, terlambat, lembur, dll) | `GET /hr/attendances/summary/pagination` |
-| `4-export-absensi-harian.php` | File Excel absensi harian | `GET /hr/attendances/daily/export/xls` |
-| `5-export-rekap-absensi.php` | File Excel rekap absensi | `GET /hr/attendances/summary/export/xls` |
-| `6-export-detail-absensi.php` | File Excel detail absensi per hari per karyawan | `GET /hr/attendances/detail/export/xls` |
-
-### Karyawan (`demo/karyawan/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-daftar-karyawan.php` | Daftar karyawan beserta ID-nya | `GET /hr/employees/pagination` |
-| `2-detail-karyawan.php` | Detail 1 karyawan | `GET /hr/employees/{id}` |
-| `3-tambah-karyawan.php` ✏️ | Tambah karyawan (data pribadi, karir, payroll) | `POST /hr/employees/insert` |
-| `4-export-karyawan.php` | File Excel data karyawan | `GET /hr/employees/export/xls` |
-
-### Data Master (`demo/data-master/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-struktur-organisasi.php` | Daftar struktur organisasi | `GET /hr/orgStructures` |
-| `2-jabatan.php` | Daftar jabatan | `GET /hr/jobPositions` |
-| `3-level-jabatan.php` | Daftar level jabatan | `GET /hr/jobLevels` |
-| `4-shift.php` | Daftar shift kerja | `GET /hr/shifts` |
-| `5-lokasi-absensi.php` | Daftar lokasi absensi | `GET /hr/attendanceLocations` |
-| `6-referensi.php` | Kode pilihan (jenis kelamin, agama, status karyawan, dll) | `GET /hr/references/...` |
-| `7-tambah-jabatan.php` ✏️ | Tambah jabatan | `POST /hr/jobPositions` |
-| `8-ubah-jabatan.php` ✏️ | Ubah jabatan | `PUT /hr/jobPositions/{id}` |
-| `9-hapus-jabatan.php` ✏️ | Hapus jabatan | `DELETE /hr/jobPositions/{id}` |
-
-### Cuti (`demo/cuti/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-daftar-cuti-tahunan.php` | Daftar pengajuan cuti tahunan | `GET /hr/leaves/annualLeaves/pagination` |
-| `2-tambah-cuti-tahunan.php` ✏️ | Tambah cuti tahunan | `POST /hr/leaves/annualLeaves` |
-| `3-export-cuti.php` | File Excel data cuti | `GET /hr/leaves/export/xls` |
-| `4-export-sisa-kuota-cuti.php` | File Excel sisa kuota cuti tahunan | `GET /hr/leaves/annualLeaves/export/xls` |
-
-### Lembur (`demo/lembur/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-daftar-lembur.php` | Daftar data lembur | `GET /hr/overtimes/pagination` |
-| `2-tambah-lembur.php` ✏️ | Tambah data lembur | `POST /hr/overtimes` |
-| `3-export-lembur.php` | File Excel data lembur | `GET /hr/overtimes/export/xls` |
-
-### Persetujuan (`demo/persetujuan/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-daftar-persetujuan.php` | Pengajuan yang menunggu persetujuan | `GET /hr/approvals/pagination` |
-| `2-setujui-pengajuan.php` ✏️ | Setujui / tolak pengajuan | `PATCH /hr/approvals/approve` (atau `/decline`) |
-
-### Gaji (`demo/gaji/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-daftar-gaji-per-periode.php` | Daftar gaji karyawan dalam 1 bulan | `GET /hr/payrollPayments` |
-| `2-export-gaji-per-periode.php` | File Excel rekap gaji 1 bulan | `GET /hr/payrolls/perPeriod/export/xls` |
-| `3-komponen-gaji.php` | Daftar komponen gaji | `GET /hr/salaryComponents/pagination` |
-
-### Reimbursement (`demo/reimbursement/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-daftar-reimbursement.php` | Daftar pengajuan reimbursement | `GET /hr/reimbursements/pagination` |
-| `2-export-reimbursement.php` | File Excel reimbursement | `GET /hr/reimbursements/export/xls` |
-
-### Kasbon (`demo/kasbon/`)
-
-| File | Keterangan | Endpoint |
-|---|---|---|
-| `1-saldo-kasbon.php` | Saldo kasbon per karyawan | `GET /hr/cashReceipt/balance/pagination` |
-| `2-riwayat-kasbon.php` | Riwayat pengajuan kasbon | `GET /hr/cashReceipt/history/pagination` |
-| `3-export-kasbon.php` | File Excel saldo & riwayat kasbon | `GET /hr/cashReceipt/{balance,history}/export/xls` |
-
-### Unduh Otomatis (`demo/unduh-otomatis/`)
-
-| File | Keterangan |
-|---|---|
-| `unduh-laporan-absensi.php` | Unduh file Excel detail & rekap absensi kemarin (atau rentang tanggal tertentu) |
-
----
-
-## 7. Unduh Laporan Otomatis Setiap Hari
-
-Script `demo/unduh-otomatis/unduh-laporan-absensi.php` mengunduh laporan absensi ke folder `hasil-unduhan/`.
-
-```bash
-# Laporan kemarin
-php demo/unduh-otomatis/unduh-laporan-absensi.php
-
-# Laporan rentang tanggal tertentu
-php demo/unduh-otomatis/unduh-laporan-absensi.php 2026-09-01 2026-09-30
-```
-
-Agar berjalan otomatis, jadwalkan perintah di atas.
-
-### Windows (Task Scheduler)
-
-1. Buka **Task Scheduler**, lalu klik **Create Basic Task**.
-2. Isi nama, contoh `Unduh Absensi GajiHub`, lalu pilih **Daily** dan tentukan jam (contoh `06:00`).
-3. Pilih **Start a program**, lalu isi:
-   - **Program/script**: `C:\xampp\php\php.exe`
-   - **Add arguments**: `unduh-laporan-absensi.php`
-   - **Start in**: `C:\xampp\htdocs\gajihub-api-demo\demo\unduh-otomatis`
-4. Klik **Finish**.
-
-### Linux / macOS (cron)
-
-Jalankan `crontab -e`, lalu tambahkan baris berikut (setiap hari jam 06:00):
-
-```text
-0 6 * * * php /var/www/html/gajihub-api-demo/demo/unduh-otomatis/unduh-laporan-absensi.php >> /var/log/unduh-absensi.log 2>&1
-```
-
----
-
-## 8. Membuat Program Sendiri
-
-Salin salah satu demo, lalu ubah endpoint dan parameternya. Pola dasarnya:
-
-```php
-<?php
-require __DIR__ . '/../../gajihub.php';
-
-// Ambil data (GET)
-$hasil = api_get('/hr/attendances/daily/pagination', [
-    'date'     => '2026-09-14',
-    'per_page' => 100,
-]);
-
-if ($hasil['sukses']) {
-    foreach ($hasil['data']['data']['data'] as $absen) {
-        // simpan ke database Anda di sini
-    }
-}
-
-// Unduh file Excel
-unduh_file('/hr/attendances/detail/export/xls', [
-    'date_started' => '2026-09-01',
-    'date_ended'   => '2026-09-30',
-]);
-
-// Kirim data (POST / PUT / PATCH / DELETE)
-$hasil = api_post('/hr/overtimes', [ /* data */ ]);
-```
-
-Jika tidak memakai PHP, setiap request cukup mengirim 2 header berikut:
+Tidak ada proses login. Setiap request cukup membawa header berikut:
 
 ```text
 Authorization: Bearer <ACCESS_TOKEN>
 Accept: application/json
+X-App: hr
 ```
 
 Contoh dengan curl:
 
 ```bash
-curl -G "https://namaperusahaan.api.kledo.com/api/v1/hr/attendances/daily/pagination" \
+curl "https://namaperusahaan.api.kledo.com/api/v1/authentication/user" \
   -H "Authorization: Bearer gajihub_pat_xxxxxx_xxxxxxxxxxxxxxxx" \
   -H "Accept: application/json" \
-  --data-urlencode "date=2026-09-14"
+  -H "X-App: hr"
 ```
+
+Endpoint `GET /authentication/user` membalas data user pemilik token. Endpoint ini paling cocok untuk memastikan token berfungsi.
+Header `X-App: hr` **wajib** untuk endpoint ini. Tanpa header tersebut, server membalas `401`.
 
 ---
 
-## 9. Catatan Penting
+## Keamanan Token
+
+Demo menulis token langsung di dalam file agar mudah dicoba. **Untuk aplikasi sungguhan, jangan lakukan itu.**
+
+1. **Simpan token di `.env` atau environment variable server**, bukan di kode. Pastikan `.env` masuk `.gitignore`.
+2. **Pakai token hanya di server (backend).** Jangan taruh token di JavaScript browser atau aplikasi mobile.
+   Aplikasi Anda memanggil server Anda, lalu server Anda yang memanggil API GajiHub.
+3. **Buat user khusus integrasi** dengan hak akses seminimal mungkin, karena token mewarisi hak akses user pembuatnya.
+4. **Satu token untuk satu aplikasi**, agar bisa dicabut tanpa mengganggu integrasi lain.
+5. **Atur masa berlaku** dan ganti token secara berkala. Jika token bocor, segera hapus di **Pengaturan → API Key**.
+6. **Jangan mencatat token** di log atau pesan error.
+7. **Selalu gunakan HTTPS** (`API_HOST` diawali `https://`).
+
+Contoh penerapannya (token di `.env`, klien yang bisa dipakai ulang, penanganan error yang tidak membocorkan token):
+
+| Framework | Folder |
+|---|---|
+| Laravel | [php/01-authentication/laravel/](php/01-authentication/laravel/) |
+| FastAPI | [python/01-authentication/fastapi/](python/01-authentication/fastapi/) |
+| Express | [nodejs/01-authentication/express/](nodejs/01-authentication/express/) |
+
+---
+
+## Daftar Demo
+
+Nama file sama untuk semua bahasa. Akhirannya `.php`, `.py`, atau `.mjs`.
+Demo bertanda ✏️ **mengubah data** di GajiHub (menambah, mengubah, menghapus, atau menyetujui). Coba dengan hati-hati.
+
+### Autentikasi (`01-authentication/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-check-token` | Cek token valid & siapa pemiliknya | `GET /authentication/user` |
+
+### Karyawan (`02-employees/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-list-employees` | Daftar karyawan beserta ID-nya | `GET /hr/employees/pagination` |
+| `02-employee-detail` | Detail 1 karyawan | `GET /hr/employees/{id}` |
+| `03-create-employee` ✏️ | Tambah karyawan (data pribadi, karir, payroll) | `POST /hr/employees/insert` |
+| `04-export-employees` | File Excel data karyawan | `GET /hr/employees/export/xls` |
+
+### Data Master (`03-master-data/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-org-structures` | Daftar struktur organisasi | `GET /hr/orgStructures` |
+| `02-job-positions` | Daftar jabatan | `GET /hr/jobPositions` |
+| `03-job-levels` | Daftar level jabatan | `GET /hr/jobLevels` |
+| `04-shifts` | Daftar shift kerja | `GET /hr/shifts` |
+| `05-attendance-locations` | Daftar lokasi absensi | `GET /hr/attendanceLocations` |
+| `06-references` | Kode pilihan (jenis kelamin, agama, status karyawan, dll) | `GET /hr/references/...` |
+| `07-create-job-position` ✏️ | Tambah jabatan | `POST /hr/jobPositions` |
+| `08-update-job-position` ✏️ | Ubah jabatan | `PUT /hr/jobPositions/{id}` |
+| `09-delete-job-position` ✏️ | Hapus jabatan | `DELETE /hr/jobPositions/{id}` |
+
+### Absensi (`04-attendance/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-daily-attendance` | Absensi semua karyawan pada 1 tanggal | `GET /hr/attendances/daily/pagination` |
+| `02-monthly-attendance-by-employee` | Absensi 1 karyawan selama 1 bulan | `GET /hr/attendances/pagination` |
+| `03-attendance-summary` | Rekap absensi per karyawan (hadir, terlambat, lembur, dll) | `GET /hr/attendances/summary/pagination` |
+| `04-export-daily-attendance` | File Excel absensi harian | `GET /hr/attendances/daily/export/xls` |
+| `05-export-attendance-summary` | File Excel rekap absensi | `GET /hr/attendances/summary/export/xls` |
+| `06-export-attendance-detail` | File Excel detail absensi per hari per karyawan | `GET /hr/attendances/detail/export/xls` |
+
+### Cuti (`05-leave/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-list-annual-leaves` | Daftar pengajuan cuti tahunan | `GET /hr/leaves/annualLeaves/pagination` |
+| `02-create-annual-leave` ✏️ | Tambah cuti tahunan | `POST /hr/leaves/annualLeaves` |
+| `03-export-leaves` | File Excel data cuti | `GET /hr/leaves/export/xls` |
+| `04-export-annual-leave-balance` | File Excel sisa kuota cuti tahunan | `GET /hr/leaves/annualLeaves/export/xls` |
+
+### Lembur (`06-overtime/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-list-overtimes` | Daftar data lembur | `GET /hr/overtimes/pagination` |
+| `02-create-overtime` ✏️ | Tambah data lembur | `POST /hr/overtimes` |
+| `03-export-overtimes` | File Excel data lembur | `GET /hr/overtimes/export/xls` |
+
+### Persetujuan (`07-approvals/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-list-approvals` | Pengajuan yang menunggu persetujuan | `GET /hr/approvals/pagination` |
+| `02-approve-requests` ✏️ | Setujui / tolak pengajuan | `PATCH /hr/approvals/approve` (atau `/decline`) |
+
+### Gaji (`08-payroll/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-list-payroll-by-period` | Daftar gaji karyawan dalam 1 bulan | `GET /hr/payrollPayments` |
+| `02-export-payroll-by-period` | File Excel rekap gaji 1 bulan | `GET /hr/payrolls/perPeriod/export/xls` |
+| `03-salary-components` | Daftar komponen gaji | `GET /hr/salaryComponents/pagination` |
+
+### Reimbursement (`09-reimbursement/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-list-reimbursements` | Daftar pengajuan reimbursement | `GET /hr/reimbursements/pagination` |
+| `02-export-reimbursements` | File Excel reimbursement | `GET /hr/reimbursements/export/xls` |
+
+### Kasbon (`10-cash-advance/`)
+
+| File | Keterangan | Endpoint |
+|---|---|---|
+| `01-cash-advance-balances` | Saldo kasbon per karyawan | `GET /hr/cashReceipt/balance/pagination` |
+| `02-cash-advance-history` | Riwayat pengajuan kasbon | `GET /hr/cashReceipt/history/pagination` |
+| `03-export-cash-advances` | File Excel saldo & riwayat kasbon | `GET /hr/cashReceipt/{balance,history}/export/xls` |
+
+### Unduh Otomatis (`11-scheduled-download/`)
+
+| File | Keterangan |
+|---|---|
+| `download-attendance-reports` | Unduh file Excel detail & rekap absensi kemarin (atau rentang tanggal tertentu). Cara menjadwalkannya ada di README tiap bahasa. |
+
+---
+
+## Catatan Penting
 
 - **Format respons.** Semua respons JSON berbentuk `{ "success": true, "data": ..., "message": "..." }`.
 - **Data per halaman.** Endpoint `.../pagination` mengirim data per halaman.
@@ -326,16 +248,16 @@ curl -G "https://namaperusahaan.api.kledo.com/api/v1/hr/attendances/daily/pagina
 
 ---
 
-## 10. Jika Terjadi Kendala
+## Jika Terjadi Kendala
 
 | Pesan / Kondisi | Penyebab & Solusi |
 |---|---|
-| `File .env belum ada` | Salin `.env.example` menjadi `.env` (lihat bagian 4). |
-| `401` | Token salah, terpotong, atau kedaluwarsa. Periksa `ACCESS_TOKEN` di `.env`, atau buat token baru. |
+| `API_HOST dan ACCESS_TOKEN belum diisi` | Isi bagian **Konfigurasi** di atas file demo. |
+| `401` | Token salah, terpotong, atau kedaluwarsa. Periksa `ACCESS_TOKEN`, atau buat token baru. Jika memanggil API sendiri, pastikan header `X-App: hr` ikut dikirim. |
 | `403` | User pembuat token tidak punya hak akses ke fitur tersebut. |
 | `400` | Parameter tidak valid (misalnya format tanggal salah). Baca pesan error yang ditampilkan. |
 | `404` | ID data atau alamat endpoint salah. Pastikan `API_HOST` diakhiri `/api/v1`. |
 | `429` | Terlalu banyak request dalam waktu singkat. Tunggu sebentar lalu coba lagi. |
-| `Call to undefined function curl_init()` | Ekstensi curl belum aktif. Buka `php.ini`, hapus tanda `;` di depan `extension=curl`, lalu restart Apache. |
-| `SSL certificate problem: unable to get local issuer certificate` | PHP belum punya sertifikat CA. Unduh [cacert.pem](https://curl.se/ca/cacert.pem) ke `C:\xampp\php\cacert.pem`, lalu isi `curl.cainfo = "C:\xampp\php\cacert.pem"` di `php.ini`, kemudian restart Apache. |
-| `syntax error, unexpected ...` / `never` | Versi PHP terlalu lama. Gunakan PHP 8.1 atau lebih baru. |
+| `Gagal terhubung ke server` | `API_HOST` salah atau tidak ada koneksi internet. |
+
+Kendala khusus tiap bahasa (instalasi, sertifikat SSL, versi) ada di README folder [php/](php/README.md), [python/](python/README.md), dan [nodejs/](nodejs/README.md).

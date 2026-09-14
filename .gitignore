@@ -1,2 +1,5 @@
 .env
 hasil-unduhan/
+node_modules/
+__pycache__/
+.venv/
