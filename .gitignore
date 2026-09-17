@@ -1,5 +1,17 @@
+# Konfigurasi berisi token. JANGAN pernah di-commit.
 .env
+
+# Hasil export dari demo
 hasil-unduhan/
+
+# Node.js
 node_modules/
+dist/
+
+# Python
 __pycache__/
+*.pyc
 .venv/
+
+# Go
+*.exe

@@ -30,7 +30,7 @@ Filter tambahan sudah disiapkan dalam bentuk komentar `//`. Hapus tanda `//` unt
 > File memakai akhiran `.mjs` agar bisa langsung memakai `await` tanpa konfigurasi tambahan.
 
 > Menulis token langsung di file hanya untuk mencoba. Untuk aplikasi sungguhan, simpan token di `.env`,
-> lihat contoh Express di [01-authentication/express/](01-authentication/express/).
+> lihat contoh NestJS di [01-authentication/nestjs/](01-authentication/nestjs/).
 
 ## Daftar Demo
 
@@ -66,4 +66,4 @@ Kendala umum (401, 403, dll) ada di [README utama](../README.md#jika-terjadi-ken
 |---|---|
 | `fetch is not defined` / `AbortSignal.timeout is not a function` | Versi Node.js terlalu lama. Gunakan Node.js 18 atau lebih baru. |
 | `Cannot use import statement outside a module` / `await is only valid...` | Pastikan akhiran file `.mjs`, bukan `.js`. |
-| `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` / `UNABLE_TO_VERIFY_LEAF_SIGNATURE` | Jaringan kantor memakai sertifikat khusus. Arahkan environment variable `NODE_EXTRA_CA_CERTS` ke file sertifikat CA kantor Anda. |
+| `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` / `UNABLE_TO_VERIFY_LEAF_SIGNATURE` / `unable to verify the first certificate` | Sertifikat server tidak dikenali Node.js. Node.js punya daftar CA sendiri, jadi sertifikat yang sudah dipercaya Windows/macOS belum tentu dipercaya Node.js. Jalankan dengan `node --use-system-ca` (Node.js 22+) agar memakai daftar CA sistem, atau arahkan environment variable `NODE_EXTRA_CA_CERTS` ke file sertifikat CA Anda. |

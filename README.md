@@ -1,11 +1,11 @@
 # Demo API GajiHub
 
 Kumpulan contoh program untuk mengambil dan mengirim data ke GajiHub lewat API, memakai **Personal Access Token**.
-Tersedia dalam **PHP**, **Python**, dan **Node.js**, dengan isi yang sama persis.
+Tersedia dalam **PHP**, **Python**, **Node.js**, dan **Go**, dengan isi yang sama persis.
 
 - **Setiap file berdiri sendiri.** Salin 1 file, isi `API_HOST` dan `ACCESS_TOKEN`, lalu jalankan.
-- **Tanpa library tambahan.** Tidak perlu Composer, `pip install`, atau `npm install`.
-- Ada **contoh penerapan yang aman** untuk aplikasi sungguhan: Laravel, FastAPI, dan Express.
+- **Tanpa library tambahan.** Tidak perlu Composer, `pip install`, `npm install`, atau `go get`.
+- Ada **contoh penerapan yang aman** untuk aplikasi sungguhan: Laravel, FastAPI, NestJS, dan net/http.
 
 ---
 
@@ -17,8 +17,9 @@ Tersedia dalam **PHP**, **Python**, dan **Node.js**, dengan isi yang sama persis
 4. [Cara Kerja Autentikasi](#cara-kerja-autentikasi)
 5. [Keamanan Token](#keamanan-token)
 6. [Daftar Demo](#daftar-demo)
-7. [Catatan Penting](#catatan-penting)
-8. [Jika Terjadi Kendala](#jika-terjadi-kendala)
+7. [Pengujian Otomatis](#pengujian-otomatis)
+8. [Catatan Penting](#catatan-penting)
+9. [Jika Terjadi Kendala](#jika-terjadi-kendala)
 
 ---
 
@@ -28,10 +29,12 @@ Tersedia dalam **PHP**, **Python**, dan **Node.js**, dengan isi yang sama persis
 gajihub-api-demo/
 ├── php/                -> demo PHP        (lihat php/README.md)
 ├── python/             -> demo Python     (lihat python/README.md)
-└── nodejs/             -> demo Node.js    (lihat nodejs/README.md)
+├── nodejs/             -> demo Node.js    (lihat nodejs/README.md)
+├── go/                 -> demo Go         (lihat go/README.md)
+└── tests/              -> pengujian otomatis semua demo (lihat tests/README.md)
 
 Di dalam setiap folder bahasa (urut dari yang paling dasar):
-    ├── 01-authentication/      -> cek token + contoh penerapan aman (laravel/, fastapi/, express/)
+    ├── 01-authentication/      -> cek token + contoh penerapan aman (laravel/, fastapi/, nestjs/, nethttp/)
     ├── 02-employees/           -> karyawan: daftar, detail, tambah, export
     ├── 03-master-data/         -> struktur organisasi, jabatan, level, shift, lokasi, referensi
     ├── 04-attendance/          -> absensi: harian, bulanan, rekap, export Excel
@@ -60,6 +63,7 @@ Di dalam setiap folder bahasa (urut dari yang paling dasar):
    | PHP 8.1+ | `cd php/01-authentication` lalu `php 01-check-token.php` |
    | Python 3.8+ | `cd python/01-authentication` lalu `python 01-check-token.py` |
    | Node.js 18+ | `cd nodejs/01-authentication` lalu `node 01-check-token.mjs` |
+   | Go 1.21+ | `cd go/01-authentication` lalu `go run 01-check-token.go` |
 
 4. Jika muncul `Token valid.`, token sudah benar. Lanjutkan ke demo lain dengan cara yang sama.
 
@@ -124,13 +128,14 @@ Contoh penerapannya (token di `.env`, klien yang bisa dipakai ulang, penanganan 
 |---|---|
 | Laravel | [php/01-authentication/laravel/](php/01-authentication/laravel/) |
 | FastAPI | [python/01-authentication/fastapi/](python/01-authentication/fastapi/) |
-| Express | [nodejs/01-authentication/express/](nodejs/01-authentication/express/) |
+| NestJS | [nodejs/01-authentication/nestjs/](nodejs/01-authentication/nestjs/) |
+| Go (net/http) | [go/01-authentication/nethttp/](go/01-authentication/nethttp/) |
 
 ---
 
 ## Daftar Demo
 
-Nama file sama untuk semua bahasa. Akhirannya `.php`, `.py`, atau `.mjs`.
+Nama file sama untuk semua bahasa. Akhirannya `.php`, `.py`, `.mjs`, atau `.go`.
 Demo bertanda ✏️ **mengubah data** di GajiHub (menambah, mengubah, menghapus, atau menyetujui). Coba dengan hati-hati.
 
 ### Autentikasi (`01-authentication/`)
@@ -228,6 +233,20 @@ Demo bertanda ✏️ **mengubah data** di GajiHub (menambah, mengubah, menghapus
 
 ---
 
+## Pengujian Otomatis
+
+Seluruh demo bisa dijalankan sekaligus untuk memastikan semuanya masih berfungsi:
+
+```bash
+python tests/run.py
+```
+
+Memakai server tiruan di komputer sendiri, jadi **tanpa token, tanpa internet, dan tanpa
+mengubah data siapa pun**. Untuk mengujinya terhadap API GajiHub sungguhan, lihat
+[tests/README.md](tests/README.md).
+
+---
+
 ## Catatan Penting
 
 - **Format respons.** Semua respons JSON berbentuk `{ "success": true, "data": ..., "message": "..." }`.
@@ -260,4 +279,4 @@ Demo bertanda ✏️ **mengubah data** di GajiHub (menambah, mengubah, menghapus
 | `429` | Terlalu banyak request dalam waktu singkat. Tunggu sebentar lalu coba lagi. |
 | `Gagal terhubung ke server` | `API_HOST` salah atau tidak ada koneksi internet. |
 
-Kendala khusus tiap bahasa (instalasi, sertifikat SSL, versi) ada di README folder [php/](php/README.md), [python/](python/README.md), dan [nodejs/](nodejs/README.md).
+Kendala khusus tiap bahasa (instalasi, sertifikat SSL, versi) ada di README folder [php/](php/README.md), [python/](python/README.md), [nodejs/](nodejs/README.md), dan [go/](go/README.md).
