@@ -62,7 +62,7 @@ Di dalam setiap folder bahasa (urut dari yang paling dasar):
    |---|---|
    | PHP 8.1+ | `cd php/01-authentication` lalu `php 01-check-token.php` |
    | Python 3.8+ | `cd python/01-authentication` lalu `python 01-check-token.py` |
-   | Node.js 18+ | `cd nodejs/01-authentication` lalu `node 01-check-token.mjs` |
+   | Node.js 18+ | `cd nodejs/01-authentication` lalu `node 01-check-token.js` |
    | Go 1.21+ | `cd go/01-authentication` lalu `go run 01-check-token.go` |
 
 4. Jika muncul `Token valid.`, token sudah benar. Lanjutkan ke demo lain dengan cara yang sama.
@@ -151,7 +151,7 @@ Contoh penerapannya (token di `.env`, klien yang bisa dipakai ulang, penanganan 
 
 ## Daftar Demo
 
-Nama file sama untuk semua bahasa. Akhirannya `.php`, `.py`, `.mjs`, atau `.go`.
+Nama file sama untuk semua bahasa. Akhirannya `.php`, `.py`, `.js`, atau `.go`.
 Demo bertanda ✏️ **mengubah data** di GajiHub (menambah, mengubah, menghapus, atau menyetujui). Coba dengan hati-hati.
 
 ### Autentikasi (`01-authentication/`)

@@ -2,7 +2,7 @@
 Daftar demo yang diuji.
 
 Nama file demo sama persis di semua bahasa, hanya akhirannya yang berbeda
-(.php / .py / .mjs / .go). Jadi satu daftar ini dipakai untuk keempat bahasa.
+(.php / .py / .js / .go). Jadi satu daftar ini dipakai untuk keempat bahasa.
 """
 
 
@@ -91,6 +91,6 @@ class Bahasa:
 BAHASA = {
     'php':    Bahasa('php', '.php', ['php'], 'php'),
     'python': Bahasa('python', '.py', [None], 'python'),   # None = interpreter Python yang sedang jalan
-    'nodejs': Bahasa('nodejs', '.mjs', ['node'], 'node'),
+    'nodejs': Bahasa('nodejs', '.js', ['node'], 'node'),
     'go':     Bahasa('go', '.go', ['go', 'run'], 'go'),
 }
