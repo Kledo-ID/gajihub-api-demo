@@ -75,10 +75,26 @@ Filter tambahan sudah disiapkan dalam bentuk komentar. Hapus tanda komentarnya u
 ## Membuat Personal Access Token
 
 1. Login ke GajiHub sebagai admin.
-2. Buka menu **Pengaturan → API Key**.
+2. Buka menu **Pengaturan → Integrasi → API Key**.
+
+<img width="1234" height="809" alt="image" src="https://github.com/user-attachments/assets/0080f0e7-7775-42ab-90ff-f5cd5732e0c8" />
+
+
+3. Klik Tambar API
+
+<img width="963" height="875" alt="image" src="https://github.com/user-attachments/assets/eefa3e5b-b2e2-4b5f-b377-5e3d4cb03709" />
+
+
 3. Tambahkan token baru: isi nama token dan masa berlakunya.
+
+<img width="619" height="383" alt="image" src="https://github.com/user-attachments/assets/bdb3db4a-f337-42c6-913b-37952295db5f" />
+
+
 4. **Salin token** yang muncul (diawali `gajihub_pat_`), lalu simpan di tempat aman.
-   Token hanya ditampilkan **satu kali**.
+   Token hanya ditampilkan **satu kali**. Rahasiakan Token ini!
+
+<img width="939" height="649" alt="image" src="https://github.com/user-attachments/assets/ced2888e-c023-4302-8a08-b797b498f3c9" />
+
 
 > Token bekerja atas nama user yang membuatnya, dengan hak akses yang sama.
 > Jika user tidak punya akses ke menu tertentu, API untuk menu itu akan membalas `403`.
