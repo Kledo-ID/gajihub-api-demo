@@ -6,6 +6,7 @@ Tersedia dalam **PHP**, **Python**, **Node.js**, dan **Go**, dengan isi yang sam
 - **Setiap file berdiri sendiri.** Salin 1 file, isi `API_HOST` dan `ACCESS_TOKEN`, lalu jalankan.
 - **Tanpa library tambahan.** Tidak perlu Composer, `pip install`, `npm install`, atau `go get`.
 - Ada **contoh penerapan yang aman** untuk aplikasi sungguhan: Laravel, FastAPI, NestJS, dan net/http.
+- Tidak semua API route tersedia contohnya di repo ini. Tolong cek API Docs untuk melihat semua route yang tersedia!
 
 ---
 
